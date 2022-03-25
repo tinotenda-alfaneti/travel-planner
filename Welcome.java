@@ -26,15 +26,16 @@ public class Welcome {
 
         // opening the file and loading it into the scanner
         File detailsFile = new File("userDetails.csv");
-        Scanner reader = new Scanner(detailsFile);
-        reader.useDelimiter("\n");
-        // reading the lines in the file
-        while(reader.hasNext()) {
-            String[] contents = reader.next().split(",");
-            if (contents[0].trim().equals(username) && contents[1].trim().equals(password))
-                return true;
+        try (Scanner reader = new Scanner(detailsFile)) {
+            reader.useDelimiter("\n");
+            // reading the lines in the file
+            while(reader.hasNext()) {
+                String[] contents = reader.next().split(",");
+                if (contents[0].trim().equals(username) && contents[1].trim().equals(password))
+                    return true;
+            }
+            reader.close();
         }
-        reader.close();
         return false;
 
     }
